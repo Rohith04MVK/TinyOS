@@ -1,0 +1,8 @@
+mkdir -p dist/x86_64 && \
+x86_64-elf-ld -n -o dist/x86_64/kernel.bin -T targets/x86_64/linker.ld  build/kernel/main.o  build/x86_64/string.o  build/x86_64/console.o  build/x86_64/kernel/main.o  build/x86_64/header.o  build/x86_64/main.o  build/x86_64/main64.o && \
+cp dist/x86_64/kernel.bin targets/x86_64/iso/boot/kernel.bin && \
+grub-mkrescue /usr/lib/grub/i386-pc -o dist/x86_64/kernel.iso targets/x86_64/iso
+x86_64-elf-ld: build/x86_64/kernel/main.o: in function `kernel_main':
+main.c:(.text+0x0): multiple definition of `kernel_main'; build/kernel/main.o:main.c:(.text+0x0): first defined here
+Makefile:26: recipe for target 'build-x86_64' failed
+make: *** [build-x86_64] Error 1
