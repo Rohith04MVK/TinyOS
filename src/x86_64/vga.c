@@ -1,21 +1,27 @@
-#include "console.h"
-#include "types.h"
+#include "utils.h"
+#include "char.h"
+#include "vga.h"
 
 uint32 vga_index;
 static uint32 next_line_index = 1;
-uint8 g_fore_color = WHITE, g_back_color = BLACK;
+uint8 g_fore_color = WHITE, g_back_color = BLUE;
 int digit_ascii_codes[10] = {0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39};
 
 /*
 this is same as we did in our assembly code for vga_print_char
+
 vga_print_char:
   mov di, word[VGA_INDEX]
   mov al, byte[VGA_CHAR]
+
   mov ah, byte[VGA_BACK_COLOR]
   sal ah, 4
   or ah, byte[VGA_FORE_COLOR]
+
   mov [es:di], ax
+
   ret
+
 */
 uint16 vga_entry(unsigned char ch, uint8 fore_color, uint8 back_color)
 {
@@ -77,4 +83,20 @@ void print_string(char *str)
         print_char(str[index]);
         index++;
     }
+}
+
+void print_int(int num)
+{
+    char str_num[digit_count(num) + 1];
+    itoa(num, str_num);
+    print_string(str_num);
+}
+
+
+void kernel_entry()
+{
+    init_vga(WHITE, BLUE);
+    print_string("Type here, one key per second, ENTER to go to next line");
+    print_new_line();
+    test_input();
 }

@@ -1,4 +1,5 @@
-#include "console.h"
+#include "vga.h"
+#include "keyboard.h"
 
 void kernel_main()
 {
@@ -6,4 +7,6 @@ void kernel_main()
     print_string("=)");
     print_new_line();
     print_string("Welcome to TinyOS");
+    print_string("Type something: ");
+    test_input();
 }
